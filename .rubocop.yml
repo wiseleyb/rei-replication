@@ -12,3 +12,4 @@ AllCops:
     - "vendor/**/*"
     - "node_modules/**/*"
     - "tmp/**/*"
+    - "spec/spec_helper.rb"

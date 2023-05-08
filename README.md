@@ -63,7 +63,26 @@ And you should see action in the server.
 
 `ReplLog: source=Replication message=process-insert users`
 
-# Advanced stuff
+# Specs
+
+I just put in a super basic example of how to spec this - it's by no means
+complete and I kind of cheated by turning transactions off (which isn't the
+default in Rspec).
+
+# Speeding things up
+
+Speed really matters monitoring replication slots on high traffic apps. For
+example - if you're calling an API to update external data-sources you don't
+want to put that in-line. There are a bunch of ways to do this. You can use the
+traditional Sidekiq method - but, that can get complicated/messy if you're
+using Sidekiq for a ton of other things as well... you'll need to create a
+seperate Sidekiq instance, or dedicated queue, etc. Kind of messy. 
+
+I like to just use a dead simple Redis queue. I haven't included the code to do
+this here as it over complicates this "simple" example but it's not hard to do
+- and should be done if you have a really busy app.
+
+# Not covered here
 
 Monitoring: You definitely want to monitor this in production. There are a
 zillion ways to do this (like DataDog, manually write something, etc) but you

@@ -36,17 +36,9 @@ class ReplServer
     sql_results.each do |sql_res|
       rows = ReplData.new(sql_res).rows # returns ReplDataRow
       rows.each do |row|
-        msg = "process-#{row.kind} #{row.table}"
         case row.table
         when 'users'
-          ReplLog.log_repl(msg)
-          # optionally check change type (crud) - you could just process
-          # all user changes
-          # case row.kind
-          # when 'insert'
-          # when 'update'
-          # when 'delete'
-          # end
+          ReplUser.handle(row)
         end
       end
     end
