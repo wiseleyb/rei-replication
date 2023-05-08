@@ -1,0 +1,14 @@
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+AllCops:
+  DisplayCopNames: true
+  Exclude:
+    - "bin/**/*"
+    - "db/**/*"
+    - "vendor/**/*"
+    - "node_modules/**/*"
+    - "tmp/**/*"
