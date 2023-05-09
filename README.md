@@ -69,6 +69,27 @@ I just put in a super basic example of how to spec this - it's by no means
 complete and I kind of cheated by turning transactions off (which isn't the
 default in Rspec).
 
+# Relevent files
+
+In `app/services`
+
+* `repl_config`: Very simple config settings for replication
+* `repl_data`: Used to parse data from the replication slot into ReplDataRows
+* `repl_data_row`: Parses a row from the replication slot
+* `repl_log`: Manages logging/output
+* `repl_server`: Server that monitors the replication slot. 
+   Run with `rake repl:repl_server`
+* `repl_user`: Class that handles users table changes
+* `repl_utils`: Simple SQL commands to deal with the replication slot
+
+In `lib/tasks`
+
+* `repl.rake`: runs the server
+
+In `spec/services`
+
+* `repl_server_spec.rb`: extremely basic smoke test
+
 # Speeding things up
 
 Speed really matters monitoring replication slots on high traffic apps. For
@@ -79,8 +100,8 @@ using Sidekiq for a ton of other things as well... you'll need to create a
 seperate Sidekiq instance, or dedicated queue, etc. Kind of messy. 
 
 I like to just use a dead simple Redis queue. I haven't included the code to do
-this here as it over complicates this "simple" example but it's not hard to do
-- and should be done if you have a really busy app.
+this here as it over complicates this "simple" example but it's not hard to do,
+and should be done if you have a really busy app.
 
 # Not covered here
 
