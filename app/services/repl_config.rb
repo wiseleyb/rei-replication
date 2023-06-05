@@ -12,5 +12,10 @@ class ReplConfig
     def delay
       (ENV['REPL_DELAY'] || 1).to_i
     end
+
+    # Try to auto create replication slot if it doesn't exist
+    def auto_create_replication_slot?
+      true
+    end
   end
 end

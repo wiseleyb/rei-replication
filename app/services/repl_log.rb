@@ -7,17 +7,26 @@ class ReplLog
     def log_repl(message, data = {})
       return if message.blank?
 
+      if err = data.delete[:err]
+        data[:err_message] ||= err.message
+        h[:err_backtrace] ||= err.backtrace.join("\n")
+      end
+
       h = {
-        source: 'Replication',
         message:
       }.merge(data)
+
       log_hash(h)
     end
 
+    # logs messages
+    # adds a short guid for tracking multiple messages
     def log_hash(hash)
-      msg = hash.map { |k, v| "#{k}=#{v}" }.join(' ')
-      Rails.logger.info msg
-      puts "ReplLog: #{msg}"
+      logid = SecureRandom.hex(5)
+      hash.each do |k, v|
+        msg = "source=KoyoReplication logid=#{logid} #{k}=#{v}"
+        Rails.logger.info msg
+      end
     end
   end
 end
