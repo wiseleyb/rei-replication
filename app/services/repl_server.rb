@@ -6,14 +6,12 @@ class ReplServer
                 :test_mode # when true - only peeks at slot
 
   def self.run!(test_mode: false)
-    ReplServer.new(test_mode: false).run!
+    ReplServer.new(test_mode: test_mode).run!
   end
 
   def initialize(test_mode: false)
     @test_mode = test_mode
-    if ReplConfig.auto_create_replication_slot?
-      ReplUtils.create_replication_slot!
-    end
+    ReplUtils.create_replication_slot! if ReplConfig.auto_create_replication_slot?
     @tables = tables_that_handle_koyo_replication
   end
 
@@ -57,10 +55,11 @@ class ReplServer
       rows = ReplData.new(sql_res).rows # returns ReplDataRow
       rows.each do |row|
         next unless tables.include?(row.table)
+
         klass = tables[row.table].constantize
         klass.handle_koyo_replication(row)
-      rescue => err
-        ReplLog.log_repl('Unexpected Error in ReplServer.check', err: err)
+      rescue StandardError => e
+        ReplLog.log_repl('Unexpected Error in ReplServer.check', err: e)
       end
     end
   end
@@ -79,7 +78,7 @@ class ReplServer
               'See koyo-postgres-replication gem for how to set this up.'
     end
 
-    errs.each {|msg| ReplLog.log_repl(msg)}
+    errs.each { |msg| ReplLog.log_repl(msg) }
 
     errs.empty?
   end
@@ -93,13 +92,14 @@ class ReplServer
       klass_name = model.capitalize.singularize.camelize
       klass = klass_name.constantize
       next unless klass.methods.include?(:handle_koyo_replication)
+
       tables[klass.table_name] = klass_name
     rescue NameError # filters out stuff like SchemaMigration
       ReplLog.log_repl("Init: ignoring model #{klass_name}")
-    rescue => err
+    rescue StandardError => e
       ReplLog.log_repl('Unexpected Error in '\
                        'ReplServer.tables_that_handle_koyo_replication',
-                       err: err)
+                       err: e)
     end
     tables.each do |t|
       ReplLog.log_repl("Init: registering handler #{t}")

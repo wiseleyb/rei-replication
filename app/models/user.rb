@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Basic users table model
 class User < ApplicationRecord
   # This is called when a row is created/updated/deleted
   # You don't want to do DB updates from this or you will likely
