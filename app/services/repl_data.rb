@@ -25,15 +25,17 @@ class ReplData
                 :lsn, # ???
                 :xid  # uniq id of row returned
 
+  # takes a row from ReplUtils.(peek_slot/read_slot!)
   def initialize(row)
     @row = row
     @lsn = row['lsn']
     @xid = row['xid']
     # TODO: find faster JSON lib for this
-    @data_rows = JSON.parse(row['data'])['change']
+    @data_rows = ReplUtils.parse_json(row['data'])['change']
   end
 
   def rows
-    @data_rows.map { |d| ReplDataRow.new(xid, d) }
+    # @data_rows.map { |d| ReplDataRow.new(xid, d) }
+    @data_rows.map { |d| ReplDataRow.new(d) }
   end
 end

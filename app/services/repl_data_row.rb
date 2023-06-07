@@ -2,8 +2,7 @@
 
 # Class wrapper for replication data row
 class ReplDataRow
-  attr_accessor :xid,           # uniq id of row-set returned
-                :data,          # raw json of row - see example below
+  attr_accessor :data,          # raw json of row - see example below
                 :kind,          # insert/update/delete
                 :schema,        # always public for this - not needed
                 :table,         # table being changed
@@ -13,10 +12,8 @@ class ReplDataRow
                 :column_types,  # all types of columns - array
                 :values         # all values from table - array
 
-  def initialize(xid, data)
-    @xid = xid
-    # TODO: find faster JSON lib for this
-    @data = data # JSON.parse(data)[type]
+  def initialize(data)
+    @data = data
     @kind = @data['kind']
     @schema = @data['schema']
     @table = @data['table']

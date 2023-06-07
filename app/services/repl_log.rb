@@ -7,10 +7,10 @@ class ReplLog
     def log_repl(message, data = {})
       return if message.blank?
 
-      err = data.delete[:err]
+      err = data.delete(:err)
       if err
         data[:err_message] ||= err.message
-        h[:err_backtrace] ||= err.backtrace.join("\n")
+        data[:err_backtrace] ||= err.backtrace.join("\n")
       end
 
       h = {

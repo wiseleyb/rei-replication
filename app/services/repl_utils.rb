@@ -70,5 +70,10 @@ class ReplUtils
     def exec_sql(sql)
       ActiveRecord::Base.connection.execute(sql)
     end
+
+    # wrap this to support faster JSON parsing in the future
+    def parse_json(json)
+      JSON.parse(json)
+    end
   end
 end
