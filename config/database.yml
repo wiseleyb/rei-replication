@@ -21,6 +21,10 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
+replication:
+  <<: *default
+  database: rei_replication_development
+
 development:
   <<: *default
   database: rei_replication_development

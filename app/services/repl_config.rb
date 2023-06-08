@@ -8,6 +8,17 @@ class ReplConfig
       true
     end
 
+    # Since replication operations require admin priveleges
+    # this allows you to specificy something other than
+    # Rails.env if needed
+    def db_conn
+      #conn_name = ENV['KOYO_REPL_DB_CONN_NAME'] || Rails.env
+      conn_name = 'replicaiton'
+      config =
+        ApplicationRecord.configurations.find_db_config(conn_name)
+      ActiveRecord::Base.establish_connection config
+    end
+
     # Amount of time to delay bettwen pulling work from the redis-queue
     # (if using).
     # Note: that if there 10,000 things on the redis-queue it will
@@ -47,6 +58,5 @@ class ReplConfig
     def use_redis?
       true
     end
-
   end
 end
