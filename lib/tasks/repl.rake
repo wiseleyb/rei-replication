@@ -5,6 +5,6 @@ namespace :repl do
   # This can only be run once - no multiple servers
   desc 'Process replication slot to index changed data'
   task repl_server: :environment do
-    ReplServer.run
+    ReplPostgresServer.run!
   end
 end

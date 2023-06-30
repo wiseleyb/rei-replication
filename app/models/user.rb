@@ -2,8 +2,9 @@
 
 # Basic users table model
 class User < ApplicationRecord
-  include ReplMod
+  include Koyo::Repl::Mod
 
+  # register method for replication
   koyo_repl_handler :handle_replication
 
   # This is called when a row is created/updated/deleted
@@ -15,6 +16,7 @@ class User < ApplicationRecord
       row.to_yaml,
       '*' * 80
     ]
+    puts msg
     ReplLog.log_repl(msg)
   end
 end
