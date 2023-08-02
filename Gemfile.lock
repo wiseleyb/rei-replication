@@ -1,7 +1,8 @@
 PATH
-  remote: ../../koyo/koyo_postgres_replication
+  remote: ../../koyo/koyo-postgres-replication
   specs:
-    koyo_postgres_replication (0.1.0)
+    koyo-postgres-replication (0.1.0)
+      pg
       rails
       rake
 
@@ -220,7 +221,7 @@ DEPENDENCIES
   debug
   factory_bot_rails
   ffaker
-  koyo_postgres_replication!
+  koyo-postgres-replication!
   pg (~> 1.1)
   puma (~> 5.0)
   rails (~> 7.0.4, >= 7.0.4.3)

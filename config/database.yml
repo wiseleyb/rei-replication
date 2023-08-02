@@ -21,9 +21,19 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
-replication:
+replication_development:
   <<: *default
   database: rei_replication_development
+
+replication_test:
+  <<: *default
+  database: rei_replication_test
+
+replication_production:
+  <<: *default
+  database: rei_replication_production
+  username: rei_replication
+  password: <%= ENV["REI_REPLICATION_DATABASE_PASSWORD"] %>
 
 development:
   <<: *default

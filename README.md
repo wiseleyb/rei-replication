@@ -41,6 +41,22 @@ easiest way is probably:
 `AFTER CHANGING THIS FILE YOU NEED TO RESTART POSTGRES` (which also depends on
 how you installed it)
 
+If you get something like this:
+
+```
+FATAL:  logical replication slot "koyo_repl_test" exists, but wal_level < logical
+HINT:  Change wal_level to be logical or higher.
+```
+
+... and you've changed the conf file you might have run `alter system` which
+sets another conf file ... so search for 
+
+`find / -type f -name postgresql.auto.conf 2> /dev/null` 
+
+and check those wal_levels
+
+YOU NEED TO RESTART POSTGRES when you change wal_level
+
 Now you can create the slot. In `bundle exec rails c` console:
 
 ```
@@ -113,4 +129,6 @@ read from it, it'll use up all your disk space and everything will suck. So -
 Google your prefered method. This article hits on the basics
 [https://severalnines.com/blog/using-postgresql-replication-slots/](https://severalnines.com/blog/using-postgresql-replication-slots/)
 
+[Good article on replication slots in postgres](https://hevodata.com/learn/postgresql-replication-slots/)
+[Postgres Replication Settings](https://www.postgresql.org/docs/current/runtime-config-replication.html)
 
