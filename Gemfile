@@ -21,6 +21,11 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 gem 'bootsnap', require: false
 
 gem 'koyo-postgres-replication', path: '../../koyo/koyo-postgres-replication'
+#gem 'koyo-postgres-replication',
+#     git: 'https://github.com/wiseleyb/koyo-postgres-replication',
+#     branch: 'experimental',
+#     require: 'koyo'
+     
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

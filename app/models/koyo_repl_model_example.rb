@@ -1,16 +1,19 @@
-class KoyoReplHandler
-  # example row:
-  # User.handle_replcation called
-  # TODO: Add link to class returned
-  def self.koyo_handle_all_replication(row)
-    # puts row.to_yaml
-  end
+# frozen_string_literal: true
 
-  # log_leve: :debug, :info, :warn, :error, :fatal
-  # Example of message
-  # source=KoyoReplication logid=d7f1f0bb2a
-  #   message=Init: Finding models that support koyo_repl_handler
-  def self.koyo_log_event(message, log_level)
-    # puts message
+# Basic model example
+class KoyoReplModelExample < ApplicationRecord
+  include Koyo::Repl::Mod
+
+  # register method for replication
+  koyo_repl_handler :handle_replication
+
+  # This is called when a row is created/updated/deleted
+  # You don't want to do DB updates from this or you will likely
+  # create an infinite loop
+  # This needs to be REALLY fast if you have a lot of db traffic
+  # For example: if you're doing something like calling an API from this
+  # method you should async it (put it in Sidekiq, ActiveJob, etc)
+  def self.handle_replication(row)
+    puts row.to_yaml
   end
 end

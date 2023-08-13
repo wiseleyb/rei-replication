@@ -5,8 +5,7 @@ require 'rails_helper'
 RSpec.describe Koyo::Repl::PostgresServer, type: :service do
   describe '#check' do
     before do
-      Koyo::Repl::Utils.create_replication_slot!
-      expect(Koyo::Repl::Utils.replication_slot_exists?).to be_truthy
+      expect(Koyo::Repl::Database.replication_slot_exists?).to be_truthy
     end
 
     context 'running server' do
@@ -14,7 +13,7 @@ RSpec.describe Koyo::Repl::PostgresServer, type: :service do
 
       before do
         expect(User).to receive(:handle_replication)
-        expect(KoyoReplHandlers).to receive(:koyo_handle_all_replication)
+        expect(KoyoReplHandlerService).to receive(:koyo_handle_all_replication)
       end
 
       it 'works' do
